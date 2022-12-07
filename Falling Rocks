@@ -54,3 +54,46 @@ class FallingRocks
         dwarf.c = 'O';
         dwarf.color = ConsoleColor.Green;
         List<GameObject> rocks = new List<GameObject>();
+        while (true)
+        {
+            bool detectCollision = false;
+            bool getBonus = false;
+            int chance = randomGen.Next(0, 100);
+            int rockX = randomGen.Next(0, playfield - 1);
+            char rockChar;
+            if (chance < 3)
+            {
+                rockChar = (char)3;
+            }
+            else
+            {
+                rockChar = shapes[randomGen.Next(0, shapes.Length)];
+            }
+            ConsoleColor rockCol = colors[randomGen.Next(0, colors.Length)];
+            for (int i = 1; i <= randomGen.Next(1, 4); i++)
+            {
+                GameObject newRock = new GameObject();
+                newRock.y = 0;
+                
+                if (newRock.x >= playfield) newRock.x = playfield - 1;
+                newRock.c = rockChar;
+                if (newRock.c == (char)3)
+                {
+                    newRock.color = ConsoleColor.Red;
+                    newRock.x = rockX;
+                }
+                else
+                {
+                    newRock.color = rockCol;
+                    newRock.x = rockX + i - 1;
+                }
+                rocks.Add(newRock);
+            }
+            while (Console.KeyAvailable)            //Move the dwarf if arrow key is pressed;
+            {
+                ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+                if(pressedKey.Key == ConsoleKey.RightArrow)
+                    if ((dwarf.x + 2) < playfield)
+                    {
+                        dwarf.x++;
+                    }

@@ -97,3 +97,51 @@ class FallingRocks
                     {
                         dwarf.x++;
                     }
+                if(pressedKey.Key == ConsoleKey.LeftArrow)         
+                    if ((dwarf.x - 2) >= 0)
+                    {
+                        dwarf.x--;
+                    }
+            }
+            List<GameObject> currentRocks = new List<GameObject>();
+            for (int i = 0; i < rocks.Count; i++)                  //Move the rocks;
+            {
+                GameObject oldRock = rocks[i];
+                GameObject currentRock = new GameObject();
+                currentRock.x = oldRock.x;
+                currentRock.y = oldRock.y + 1;
+                currentRock.c = oldRock.c;
+                currentRock.color = oldRock.color;
+                if (currentRock.y < Console.WindowHeight)
+                {
+                    currentRocks.Add(currentRock);
+                }
+                else
+                {
+                    score++;
+                    if(level < 5)   level = score / 50;
+                }
+            }
+            rocks = currentRocks;
+            foreach (GameObject rock in rocks)                          //Check for collision;
+            {
+                if (((rock.x == dwarf.x - 1)||
+                    (rock.x == dwarf.x) || 
+                    (rock.x == dwarf.x + 1)) && (rock.y == dwarf.y))
+                {
+                    if (rock.c == (char)3)
+                    {
+                        getBonus = true;
+                    }
+                    else
+                    {
+                        detectCollision = true;
+                    }
+                    
+                }
+            }            
+            Console.Clear();                                            //Clear the console;
+            if (getBonus)
+            {
+                lifes++;
+            }

@@ -145,3 +145,45 @@ class FallingRocks
             {
                 lifes++;
             }
+            if (detectCollision)                                        //Redraw the field;
+            {
+                lifes--;
+                if (lifes <= 0)
+                {
+                    DrawStringOnPosition(playfield + 6, 12, "Lives: " + lifes, ConsoleColor.White);
+                    DrawStringOnPosition(playfield + 6, 11, "Score: " + score, ConsoleColor.White);
+                    DrawObjectOnPosition(dwarf.x, dwarf.y, 'X', ConsoleColor.Red);
+                    DrawStringOnPosition(playfield + 1, 15, "GAME OVER!!!", ConsoleColor.Red);
+                    DrawStringOnPosition(playfield + 1, 16, "Press [enter] to exit.", ConsoleColor.Red);
+                    Console.Beep(500, 200);
+                    Console.Beep(600, 200);
+                    Console.Beep(700, 800);
+                    Console.ReadLine();
+                    return;
+                }
+                DrawObjectOnPosition(dwarf.x, dwarf.y, 'X', ConsoleColor.Red);
+                rocks.Clear();
+                Console.Beep(500, 200);
+                Console.Beep(600, 200);
+                Console.Beep(700, 800);
+            }
+            else
+            {
+                DrawObjectOnPosition(dwarf.x - 1, dwarf.y, '(', dwarf.color);
+                DrawObjectOnPosition(dwarf.x, dwarf.y, dwarf.c, dwarf.color);
+                DrawObjectOnPosition(dwarf.x + 1, dwarf.y, ')', dwarf.color);
+            }
+            foreach (GameObject rock in rocks)
+            {
+                DrawObjectOnPosition(rock.x, rock.y, rock.c, rock.color);
+            }
+            for (int i = 0; i < Console.WindowHeight; i++)
+            DrawObjectOnPosition(playfield, i,'|', ConsoleColor.White);
+            DrawStringOnPosition(playfield + 6, 10, "Level: " + level, ConsoleColor.White);//Draw info;
+            DrawStringOnPosition(playfield + 6, 11, "Score: " + score, ConsoleColor.White);
+            DrawStringOnPosition(playfield + 6, 12, "Lives: " + lifes, ConsoleColor.White);
+            Console.Beep();
+            Thread.Sleep(600 - level*100);                                              //Slow the program;
+        }
+    }
+}
